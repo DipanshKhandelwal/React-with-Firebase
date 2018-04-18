@@ -1,9 +1,21 @@
 import React , {Component} from 'react';
 import { Text } from "react-native";
 import { Button, Card, CardSection, Input } from './common';
+import firebase from 'firebase';
 
 export default class LoginForm extends Component {
     state = { email: '', password: ''};
+
+    onButtonPress() {
+        const { email, password } = this.state;
+        this.setState({ error:'' });
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .catch(() => {
+                    });
+            });
+    }
 
     render() {
         return (
@@ -26,7 +38,7 @@ export default class LoginForm extends Component {
                     />
                 </CardSection>
                 <CardSection>
-                    <Button text="Log in!!"/>
+                    <Button text="Log in!!" onPress={this.onButtonPress.bind(this)}/>
                 </CardSection>
             </Card>
         );
