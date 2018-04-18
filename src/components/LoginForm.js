@@ -4,7 +4,7 @@ import { Button, Card, CardSection, Input } from './common';
 import firebase from 'firebase';
 
 export default class LoginForm extends Component {
-    state = { email: '', password: ''};
+    state = { email: '', password: '', error: '' };
 
     onButtonPress() {
         const { email, password } = this.state;
@@ -13,6 +13,7 @@ export default class LoginForm extends Component {
             .catch(() => {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                     .catch(() => {
+                        this.setState({error: 'Authentication Failed !!'});
                     });
             });
     }
@@ -37,10 +38,21 @@ export default class LoginForm extends Component {
                         onChangeText={ password => this.setState({ password }) }
                     />
                 </CardSection>
+                <Text style={styles.errorTextStyle}>
+                    {this.state.error}
+                </Text>
                 <CardSection>
                     <Button text="Log in!!" onPress={this.onButtonPress.bind(this)}/>
                 </CardSection>
             </Card>
         );
     }
+};
+
+const styles = {
+    errorTextStyle: {
+        fontSize: 20,
+        color: 'red',
+        alignSelf: 'center',
+    },
 };
