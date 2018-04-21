@@ -12,6 +12,6 @@
 ### Run
 ``` bash
 git clone https://github.com/DipanshKhandelwal/React-with-Firebase.git
-cd Albums
+cd React-with-Firebase
 npm install
 npm start
